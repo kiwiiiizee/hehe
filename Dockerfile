@@ -1,11 +1,14 @@
 FROM ubuntu:22.04
 
 ENV DEBIAN_FRONTEND=noninteractive \
-    ROOT_PASSWORD=123456
+    PORT=8080
+
+ARG ROOT_PASSWORD=123456
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         openssh-server \
+        nodejs \
         ca-certificates \
         curl \
         wget \
@@ -30,6 +33,8 @@ RUN apt-get update \
 
 WORKDIR /root
 
-EXPOSE 6080 5901 25565 22
+COPY server.js index.html ./
 
-CMD ["/usr/sbin/sshd", "-D", "-e"]
+EXPOSE 6080 5901 25565 22 8080
+
+CMD ["bash", "-lc", "/usr/sbin/sshd -D -e & exec node /root/server.js"]
