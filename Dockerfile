@@ -26,9 +26,6 @@ RUN apt-get update \
         'PasswordAuthentication yes' \
         'UsePAM yes' \
         >> /etc/ssh/sshd_config \
-    && wget -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb \
-    && dpkg -i cloudflared-linux-amd64.deb \
-    && rm cloudflared-linux-amd64.deb \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /root
